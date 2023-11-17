@@ -45,13 +45,13 @@
 - B6: Build image ansible để push lên registry docker/ansible/Dockerfile
      - B6.1 
      ```sh
-       suddo docker build -f Dockerfile .
+       sudo docker build -f Dockerfile .
      ```
      - B6.2: Push lên registry
-      ```sh
+     ```sh
     	docker tag ansible:latest private-docker-registry.com:5000/ansible/ansible:latest
         docker push private-docker-registry.com:5000/demo/ansible:latest
-      ```
+     ```
 	
 - B7: Pull và push image maven:3.6.3-openjdk-8 lên registry như iamge ansible
 
