@@ -4,11 +4,11 @@ build-image-service:
   image: ${DOCKER_REGISTRY_URL}/mvn/maven:3.6.3-openjdk-8
   stage: build
   script:
-    - cd gitlab-webhook-notifier
+    - cd image
     - mvn $MAVEN_OPTS clean verify
   artifacts:
     paths:
-      - gitlab-webhook-notifier/target/*.jar
+      - image/target/*.jar
 
 build-eureka-service:
   image: ${DOCKER_REGISTRY_URL}/mvn/maven:3.6.3-openjdk-8
