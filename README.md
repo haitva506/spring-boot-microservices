@@ -78,7 +78,7 @@
       sed -i 's/#Port 22/Port 22/' /etc/ssh/sshd_config
       service ssh start
     ```
-    - B11.2tạo user ssh
+    - B11.2: Tạo user ssh
      ```sh
        useradd cicd-user
      ```
