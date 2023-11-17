@@ -65,6 +65,7 @@
     > ssh-keygen -t rsa -b 4096
     > ssh-copy-id -f user@ip
 
+
 - B13: Cài đặt jdk cho máy chủ triển khai
     > apt-get install openjdk-17-jdk
 
