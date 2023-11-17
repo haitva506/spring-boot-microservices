@@ -1,5 +1,8 @@
-# spring-boot-microservices
-# 1. Cài đặt môi trường cho ví dụ
+# CICD spring-boot-microservices
+I. Mở đầu
+...
+II. Cài đặt môi trường
+# 1. Các bước cài đặt môi trường
 - B1: Tạo network docker
     > sudo docker network create cicd-network
 
