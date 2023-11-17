@@ -29,23 +29,25 @@
      ```
 	
 - B4: Tài khảo đăng nhập gitlab
-    - tài khoản root
-    - mật khẩu: lấy trong file etc/gitlab/init..
+    - Tài khoản: root
+    - Mật khẩu: lấy trong file etc/gitlab/init..
 
 - B5: Cài đặt docker registry private để chứa các image trong thư mục private-registry
+     - B5.1 
      ```sh
       sudo docker-compose -f docker-compose.yml up -d
      ```
-    - tạo htpasswd để đăng nhập registry
+     - B5.2: Tạo htpasswd để đăng nhập registry
        ```sh
        sudo docker run --entrypoint htpasswd httpd:2 -Bbn testuser testpassword > /auth/htpasswd
       ```
         
 - B6: Build image ansible để push lên registry docker/ansible/Dockerfile
-    ```sh
+     - B6.1 
+     ```sh
        suddo docker build -f Dockerfile .
-    ```
-    - push lên registry
+     ```
+     - B6.2: Push lên registry
       ```sh
     	docker tag ansible:latest private-docker-registry.com:5000/ansible/ansible:latest
         docker push private-docker-registry.com:5000/demo/ansible:latest
@@ -69,13 +71,14 @@
         - gitlab
 
 - B11: SSH cài đặt ssh cho các máy chủ
+   - B11.1
     ```sh
       apt-get update
       apt-get install -y openssh-server
       sed -i 's/#Port 22/Port 22/' /etc/ssh/sshd_config
       service ssh start
     ```
-    - tạo user ssh
+    - B11.2tạo user ssh
      ```sh
        useradd cicd-user
      ```
