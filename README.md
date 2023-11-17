@@ -38,9 +38,9 @@
       sudo docker-compose -f docker-compose.yml up -d
      ```
      - B5.2: Tạo htpasswd để đăng nhập registry
-       ```sh
+     ```sh
        sudo docker run --entrypoint htpasswd httpd:2 -Bbn testuser testpassword > /auth/htpasswd
-      ```
+     ```
         
 - B6: Build image ansible để push lên registry docker/ansible/Dockerfile
      - B6.1 
