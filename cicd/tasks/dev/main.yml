@@ -1,0 +1,3 @@
+include:
+  - local: cicd/tasks/common/build.yml
+  - local: cicd/tasks/dev/deploy.yml

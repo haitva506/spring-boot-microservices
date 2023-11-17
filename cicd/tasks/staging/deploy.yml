@@ -1,0 +1,24 @@
+variables:
+  IMAGE_SERVICE_DIR: /home/cicd-user/app/image-service
+  EUREKA_SERVICE_DIR: /home/cicd-user/app/eureka-service
+  ZUUL_SERVICE_DIR: /home/cicd-user/app/zuul-service
+  ANSIBLE_PLAYBOOK_DIR: /home/cicd-user/ansible/playbooks
+
+deploy:
+  stage: deploy
+  before_script:
+    - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )'
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $VM_IPADDRESS >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - scp -r image/target/*.jar $SSH_USER@$VM_IPADDRESS:$IMAGE_SERVICE_DIR
+    - scp -r server/target/*.jar $SSH_USER@$VM_IPADDRESS:$EUREKA_SERVICE_DIR
+    - scp -r zuul-server/target/*.jar $SSH_USER@$VM_IPADDRESS:$ZUUL_SERVICE_DIR
+    - ssh $SSH_USER@$VM_IPADDRESS "ansible-playbook -i $ANSIBLE_PLAYBOOK_DIR/dev.yml -u $SSH_USER"
+  artifacts:
+    paths:
+      - image/target

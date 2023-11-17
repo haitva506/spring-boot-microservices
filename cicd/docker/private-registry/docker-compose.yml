@@ -1,0 +1,52 @@
+version: '3'
+services:
+  docker-registry:
+    image: registry:2
+    container_name: private-docker-registry
+    ports:
+      - 5000:5000
+    restart: always
+    environment:
+      REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
+      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/private-docker-registry.crt
+      REGISTRY_HTTP_TLS_KEY: /certs/private-docker-registry.key
+      REGISTRY_STORAGE_CACHE_BLOBDESCRIPTOR: redis
+      REGISTRY_REDIS_ADDR: redis-registry:6379
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/registry.password
+    volumes:
+      - ./data:/data
+      - ./certs/private-docker-registry.crt:/certs/private-docker-registry.crt
+      - ./certs/private-docker-registry.key:/certs/private-docker-registry.key
+      - ../auth:/auth
+    links:
+      - redis-registry
+    networks:
+      gitlab-network:
+        ipv4_address: 172.21.0.15
+  docker-registry-ui:
+    image: konradkleine/docker-registry-frontend:v2
+    container_name: docker-registry-ui
+    restart: always
+    ports:
+      - 8088:80
+    environment:
+      ENV_DOCKER_REGISTRY_USE_SSL: 1
+      ENV_DOCKER_REGISTRY_HOST: 172.21.0.15
+      ENV_DOCKER_REGISTRY_PORT: 5000
+    networks:
+      gitlab-network:
+        ipv4_address: 172.21.0.16
+  redis-registry:
+    image: redis:latest
+    container_name: redis-registry
+    restart: always
+    ports:
+      - 6379:6379
+    networks:
+      gitlab-network:
+        ipv4_address: 172.21.0.17
+networks:
+  gitlab-network:
+    name: gitlab-network

@@ -1,0 +1,4 @@
+[app-server]
+eureka-service ansible_host=172.21.0.11 MODULE=eureka-service NAME=server
+image-service ansible_host=172.21.0.12 MODULE=image-service NAME=image
+zuul-service ansible_host=172.21.0.13 MODULE=zuul-service NAME=zuul-server

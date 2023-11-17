@@ -1,0 +1,10 @@
+include:
+  - local: cicd/tasks/dev/main.yml
+    rules:
+      - if: $CI_COMMIT_BRANCH == "main"
+  - local: cicd/tasks/staging.yml
+    rules:
+      - if: $CI_COMMIT_BRANCH == "staging1"
+  - local: cicd/tasks/production.yml 
+    rules:
+      - if: $CI_COMMIT_BRANCH == "production"

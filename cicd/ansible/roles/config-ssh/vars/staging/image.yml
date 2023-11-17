@@ -1,0 +1,3 @@
+application_name: image-service
+server_port: 8200
+eureka_client_service_url: http://172.21.0.11:8761/eureka

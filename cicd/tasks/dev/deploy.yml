@@ -1,0 +1,16 @@
+include: 'cicd/tasks/common/add-key-ssh.yml'
+
+deploy:
+  stage: deploy
+  extends: 
+    - .add-key
+    - .keyscan
+  script:
+    - export ANSIBLE_CONFIG=./ansible.cfg
+    - pwd
+    - ls /home/.ssh
+    - ls
+    - cat /builds/gitlab-instance-319267be/spring-boot-microservices/ansible.cfg
+    - ls image/target
+    - cd $CI_PROJECT_DIR
+    - ansible-playbook -i $INVENTORY $ANSIBLE_PLAYBOOK -vvvv --extra-vars "current_directory=$(pwd)"

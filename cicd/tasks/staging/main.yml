@@ -1,0 +1,3 @@
+include:
+  - local: tasks/common/build.yml
+  - local: tasks/dev/deploy.yml

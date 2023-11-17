@@ -1,0 +1,26 @@
+- hosts: app-server
+  remote_user: cicd-user
+  vars:
+    APP_PATH: /home/cicd-user/app/
+
+  tasks:
+    - name: Ping check host
+      ping: null
+
+    - name: run ssh-keyscan to add keys to known_hosts
+      local_action: shell ssh-keyscan {{ ansible_host }} >> ~/.ssh/known_hosts
+
+    - name: Copy java application and config to servers
+      copy:
+        src: "{{current_directory}}/{{ NAME }}/target/{{NAME}}-0.0.1-SNAPSHOT.jar"
+        dest: "{{ APP_PATH }}{{ MODULE }}/"
+        mode: '420'
+
+    - name: Check if java is installed
+      ansible.builtin.shell: java -version
+      register: java_version_output
+      ignore_errors: 'no'
+
+    - name: Run java applications
+      shell: nohup java -jar {{ APP_PATH }}{{ MODULE }}/{{ NAME }}-0.0.1-SNAPSHOT.jar &
+

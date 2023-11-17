@@ -1,0 +1,4 @@
+application_name: eureka-server
+server_port: 8761
+eureka_client_register_with_eureka: false
+eureka_client_fetch_registry: false

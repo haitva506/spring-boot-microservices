@@ -1,0 +1,93 @@
+version: '2.2'
+services:
+
+  # GITLAB
+  gitlab-ee:
+    image: 'gitlab/gitlab-ee:latest'
+    restart: always
+    container_name: gitlab
+    hostname: 'gitlab.example.com'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://gitlab.example.com'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2222
+    ports:
+      - "80:80"
+      - "443:443"
+      - "2222:22"
+    volumes:
+      - './gitlab/config:/etc/gitlab'
+      - './gitlab/logs:/var/log/gitlab'
+      - './gitlab/data:/var/opt/gitlab'
+    networks:
+      gitlab-network:
+        ipv4_address: 172.21.0.9 
+
+  # RUNNER
+  gitlab-runner:
+    image: gitlab/gitlab-runner:latest
+    restart: always
+    container_name: gitlab-runner
+    hostname: gitlab-runner
+    depends_on:
+     - gitlab-ee
+    volumes:
+     - ./config/gitlab-runner:/etc/gitlab-runner
+     - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+     gitlab-network:
+       ipv4_address: 172.21.0.8
+        
+  #SERVER 1
+#  ansible-server:
+#    image: ubuntu
+#    restart: always
+#    container_name: ansible-server
+#    hostname: ansible-server
+#    command: ["sleep","infinity"]
+#    ports:
+#      - "22:22"
+#    networks:
+#      gitlab-network:
+#        ipv4_address: 172.21.0.10
+        
+  #SERVER 2
+  app-server-1:
+    image: ubuntu
+    restart: always
+    container_name: app-server-1
+    hostname: app-server-1
+    command: ["sleep","infinity"]
+    ports:
+      - "33:22"
+    networks:
+      gitlab-network:
+        ipv4_address: 172.21.0.11
+        
+   #SERVER 3
+  app-server-2:
+    image: ubuntu
+    restart: always
+    container_name: app-server-2
+    hostname: app-server-2
+    command: ["sleep","infinity"]
+    ports:
+      - "44:22"
+    networks:
+      gitlab-network:
+        ipv4_address: 172.21.0.12
+  app-server-3:
+    image: ubuntu
+    restart: always
+    container_name: app-server-3
+    hostname: app-server-3
+    command: ["sleep","infinity"]
+    ports:
+      - "55:22"
+    networks:
+      gitlab-network:
+        ipv4_address: 172.21.0.13
+
+networks:
+  gitlab-network:
+    name: gitlab-network

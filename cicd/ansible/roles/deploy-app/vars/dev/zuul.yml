@@ -1,0 +1,6 @@
+server_port: 8762
+application_name: zuul-server
+eureka_client_service_url: http://172.21.0.11:8761/eureka/
+zuul_ignored_services: *
+zuul_routes_gallery_service_path: /gallery/**
+zuul_routes_gallery_service_service_id: gallery-service

@@ -1,0 +1,31 @@
+include: 'cicd/tasks/common/base.yml'
+
+build-image-service:
+  image: ${DOCKER_REGISTRY_URL}/mvn/maven:3.6.3-openjdk-8
+  stage: build
+  script:
+    - cd gitlab-webhook-notifier
+    - mvn $MAVEN_OPTS clean verify
+  artifacts:
+    paths:
+      - gitlab-webhook-notifier/target/*.jar
+
+build-eureka-service:
+  image: ${DOCKER_REGISTRY_URL}/mvn/maven:3.6.3-openjdk-8
+  stage: build
+  script:
+    - cd server
+    - mvn $MAVEN_OPTS clean verify
+  artifacts:
+    paths:
+      - server/target/*.jar
+
+build-zuul-service:
+  image: ${DOCKER_REGISTRY_URL}/mvn/maven:3.6.3-openjdk-8
+  stage: build
+  script:
+    - cd zuul-server
+    - mvn $MAVEN_OPTS clean verify
+  artifacts:
+    paths:
+      - zuul-server/target/*.jar

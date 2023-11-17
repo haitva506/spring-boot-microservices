@@ -1,0 +1,48 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  INVENTORY: "cicd/ansible/inventories/dev/hosts"
+  ANSIBLE_PLAYBOOK: "cicd/ansible/roles/deploy-app/tasks/main.yml"
+  RUNNER: "docker-dev"
+  SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY_DEV
+  ANSIBLE_IPADDRESS: $ANSIBLE_IPADDRESS_DEV
+  DOCKER_REGISTRY_URL: $DOCKER_REGISTRY_URL_DEV
+  SSH_USER: $SSH_USER_DEV
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      variables:
+        INVENTORY: "cicd/ansible/inventories/dev/hosts"
+        ANSIBLE_PLAYBOOK: "cicd/ansible/roles/deploy-app/tasks/main.yml"
+        RUNNER: "docker-test"
+        SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY_DEV
+        ANSIBLE_IPADDRESS: $ANSIBLE_IPADDRESS_DEV
+        DOCKER_REGISTRY_URL: $DOCKER_REGISTRY_URL_DEV
+        SSH_USER: $SSH_USER_DEV
+    - if: $CI_COMMIT_BRANCH == "staging"
+      variables:
+        INVENTORY: "cicd/ansible/inventories/dev/hosts"
+        ANSIBLE_PLAYBOOK: "cicd/ansible/roles/deploy-app/tasks/main.yml"
+        RUNNER: "docker-staging"
+        SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY_DEV
+        ANSIBLE_IPADDRESS: $ANSIBLE_IPADDRESS_DEV
+        DOCKER_REGISTRY_URL: $DOCKER_REGISTRY_URL_DEV
+        SSH_USER: $SSH_USER_DEV
+    - if: $CI_COMMIT_BRANCH == "production"
+      variables:
+        INVENTORY: "cicd/ansible/inventories/dev/hosts"
+        ANSIBLE_PLAYBOOK: "cicd/ansible/roles/deploy-app/tasks/main.yml"
+        RUNNER: "docker-production"
+        SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY_DEV
+        ANSIBLE_IPADDRESS: $ANSIBLE_IPADDRESS_DEV
+        DOCKER_REGISTRY_URL: $DOCKER_REGISTRY_URL_DEV
+        SSH_USER: $SSH_USER_DEV
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .m2/repository
