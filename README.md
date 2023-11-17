@@ -43,11 +43,11 @@
      ```
         
 - B-6: Build image ansible để push lên registry docker/ansible/Dockerfile
-     - B6.1 
+     - B-6.1 
      ```sh
        sudo docker build -f Dockerfile .
      ```
-     - B6.2: Push lên registry
+     - B-6.2: Push lên registry
      ```sh
     	docker tag ansible:latest private-docker-registry.com:5000/ansible/ansible:latest
         docker push private-docker-registry.com:5000/demo/ansible:latest
