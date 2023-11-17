@@ -2,7 +2,6 @@
 ### Mục lục
 
 [I. Mở đầu](#modau)
-- 
 [II. Cài đặt môi trường](#caidat)
 - [1. Các bước cài đặt môi trường](#cacbuoccaidat)
 
