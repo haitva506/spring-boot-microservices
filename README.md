@@ -1,7 +1,7 @@
 # spring-boot-microservices
 spring-boot-microservices
-#tạo network docker
-    + sudo docker network create cicd-network
+##tạo network docker
+    ### sudo docker network create cicd-network
 
 #chạy để cài đặt các service cần thiết trong thư mục docker/docker-compose.yml
     + sudo docker-compose -f docker-compose.yml up -d
